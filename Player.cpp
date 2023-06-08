@@ -9,7 +9,7 @@ void Player::Initialize() {
 	size_ = 32;
 	speed_ = 4;
 
-	state = new PlayerStateSecondBlock();
+	state = new PlayerStateFirstBlock();
 	state->SetPlayer(this);
 
 }
@@ -28,6 +28,12 @@ void Player::SetPosY(int y){
 
 }
 
+void Player::SetHitFlag(Block* block) {
+	if (block->GetFlag1() == false && block->GetFlag2() == false && block->GetFlag3() == false) {
+		pos_.y = setPosY_;
+	}
+}
+
 void PlayerStateFirstBlock::Update() {
 	
 	CheakLeftPosX_ = player_->GetPosX() >= block_->GetFirstPosX() - block_->GetFirstSizeX() / 2 + 4;
@@ -39,7 +45,7 @@ void PlayerStateFirstBlock::Update() {
 	if (CheakLeftPosX_ &&
 		CheakLeftPosY_ &&
 		CheakRightPosX_ &&
-		CheakRightPosY_)
+		CheakRightPosY_ && block_->GetFlag1()==false)
 	{
 		player_->SetPosY(-32);
 		block_->SetFlag1(true);
@@ -61,9 +67,9 @@ void PlayerStateSecondBlock::Update() {
 	if (CheakLeftPosX_ &&
 		CheakLeftPosY_ &&
 		CheakRightPosX_ &&
-		CheakRightPosY_)
+		CheakRightPosY_ && block_->GetFlag2() == false)
 	{
-		player_->SetPosY(-64);
+		player_->SetPosY(-32);
 		block_->SetFlag2(true);
 		player_->ChangeState(new PlayerStateThirdBlock);
 
@@ -75,6 +81,7 @@ void PlayerStateSecondBlock::Update() {
 }
 
 void PlayerStateThirdBlock::Update() {
+
 	CheakLeftPosX_ = player_->GetPosX() >= block_->GetThirdPosX() - block_->GetThirdSizeX() / 2 + 4;
 	CheakLeftPosY_ = player_->GetPosY() >= block_->GetThirdPosY() - block_->GetThirdSizeY() / 2;
 	CheakRightPosX_ = player_->GetPosX() <= block_->GetThirdPosX() + block_->GetThirdSizeX() - 32;
@@ -83,7 +90,7 @@ void PlayerStateThirdBlock::Update() {
 	if (CheakLeftPosX_ &&
 		CheakLeftPosY_ &&
 		CheakRightPosX_ &&
-		CheakRightPosY_)
+		CheakRightPosY_ && block_->GetFlag3() == false)
 	{
 		player_->SetPosY(-32);
 		block_->SetFlag3(true);
@@ -102,6 +109,8 @@ void Player::Update(char* keys, Block* block) {
 	if (keys[DIK_A]) {
 		pos_.x -= speed_;
 	}
+
+	SetHitFlag(block);
 
 	state->SetBlock(block);
 	state->Update();

@@ -93,6 +93,8 @@ public:
 
 	void SetPosY(int y);
 
+	void SetHitFlag(Block* block);
+
 private:
 
 	Vector2Int pos_;

@@ -7,6 +7,7 @@ struct BLOCK
 	Vector2Int pos;
 	Vector2Int size;
 	bool blockHitFlag;
+
 };
 
 class Block
@@ -32,6 +33,10 @@ public:
 	int GetThirdPosY() { return block_[2].pos.y; }
 	int GetThirdSizeX() { return block_[2].size.x; }
 	int GetThirdSizeY() { return block_[2].size.y; }
+
+	int GetFlag1() { return block_[0].blockHitFlag; }
+	int GetFlag2() { return block_[1].blockHitFlag; }
+	int GetFlag3() { return block_[2].blockHitFlag; }
 
 	void SetFlag1(bool x);
 	void SetFlag2(bool x);
