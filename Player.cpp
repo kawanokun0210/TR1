@@ -9,7 +9,7 @@ void Player::Initialize() {
 	size_ = 32;
 	speed_ = 4;
 
-	state = new PlayerStateFirstBlock();
+	state = new PlayerStateNotBlock();
 	state->SetPlayer(this);
 
 }
@@ -34,70 +34,31 @@ void Player::SetHitFlag(Block* block) {
 	}
 }
 
+void PlayerStateNotBlock::Update() {
+
+	player_->SetHitFlag(block_);
+
+}
+
 void PlayerStateFirstBlock::Update() {
 	
-	CheakLeftPosX_ = player_->GetPosX() >= block_->GetFirstPosX() - block_->GetFirstSizeX() / 2 + 4;
-	CheakLeftPosY_ = player_->GetPosY() >= block_->GetFirstPosY() - block_->GetFirstSizeY() / 2;
-	CheakRightPosX_ = player_->GetPosX() <= block_->GetFirstPosX() + block_->GetFirstSizeX() - 32;
-	CheakRightPosY_ = player_->GetPosY() <= block_->GetFirstPosY() + block_->GetFirstSizeY();
-
-
-	if (CheakLeftPosX_ &&
-		CheakLeftPosY_ &&
-		CheakRightPosX_ &&
-		CheakRightPosY_ && block_->GetFlag1()==false)
-	{
 		player_->SetPosY(-32);
 		block_->SetFlag1(true);
-		player_->ChangeState(new PlayerStateSecondBlock);
-	}
-	else {
-		block_->SetFlag1(false);
-	}
 
 }
 
 void PlayerStateSecondBlock::Update() {
 
-	CheakLeftPosX_ = player_->GetPosX() >= block_->GetSecondPosX() - block_->GetSecondSizeX() / 2 + 4;
-	CheakLeftPosY_ = player_->GetPosY() >= block_->GetSecondPosY() - block_->GetSecondSizeY() / 2;
-	CheakRightPosX_ = player_->GetPosX() <= block_->GetSecondPosX() + block_->GetSecondSizeX() - 32;
-	CheakRightPosY_ = player_->GetPosY() <= block_->GetSecondPosY() + block_->GetSecondSizeY();
-
-	if (CheakLeftPosX_ &&
-		CheakLeftPosY_ &&
-		CheakRightPosX_ &&
-		CheakRightPosY_ && block_->GetFlag2() == false)
-	{
-		player_->SetPosY(-32);
+		player_->SetPosY(-64);
 		block_->SetFlag2(true);
-		player_->ChangeState(new PlayerStateThirdBlock);
-
-	}
-	else {
-		block_->SetFlag2(false);
-	}
 
 }
 
 void PlayerStateThirdBlock::Update() {
 
-	CheakLeftPosX_ = player_->GetPosX() >= block_->GetThirdPosX() - block_->GetThirdSizeX() / 2 + 4;
-	CheakLeftPosY_ = player_->GetPosY() >= block_->GetThirdPosY() - block_->GetThirdSizeY() / 2;
-	CheakRightPosX_ = player_->GetPosX() <= block_->GetThirdPosX() + block_->GetThirdSizeX() - 32;
-	CheakRightPosY_ = player_->GetPosY() <= block_->GetThirdPosY() + block_->GetThirdSizeY();
-
-	if (CheakLeftPosX_ &&
-		CheakLeftPosY_ &&
-		CheakRightPosX_ &&
-		CheakRightPosY_ && block_->GetFlag3() == false)
-	{
 		player_->SetPosY(-32);
 		block_->SetFlag3(true);
-	}
-	else {
-		block_->SetFlag3(false);
-	}
+	
 }
 
 void Player::Update(char* keys, Block* block) {
@@ -108,6 +69,54 @@ void Player::Update(char* keys, Block* block) {
 	}
 	if (keys[DIK_A]) {
 		pos_.x -= speed_;
+	}
+
+	CheakLeftPosX1_ = pos_.x >= block->GetFirstPosX() - block->GetFirstSizeX() / 2 + 4;
+	CheakLeftPosY1_ = pos_.y >= block->GetFirstPosY() - block->GetFirstSizeY() / 2;
+	CheakRightPosX1_ = pos_.x <= block->GetFirstPosX() + block->GetFirstSizeX() - 32;
+	CheakRightPosY1_ = pos_.y <= block->GetFirstPosY() + block->GetFirstSizeY();
+
+	CheakLeftPosX2_ = pos_.x >= block->GetSecondPosX() - block->GetSecondSizeX() / 2 + 4;
+	CheakLeftPosY2_ = pos_.y >= block->GetSecondPosY() - block->GetSecondSizeY() / 2;
+	CheakRightPosX2_ = pos_.x <= block->GetSecondPosX() + block->GetSecondSizeX() - 32;
+	CheakRightPosY2_ = pos_.y <= block->GetSecondPosY() + block->GetSecondSizeY();
+
+	CheakLeftPosX3_ = pos_.x >= block->GetThirdPosX() - block->GetThirdSizeX() / 2 + 4;
+	CheakLeftPosY3_ = pos_.y >= block->GetThirdPosY() - block->GetThirdSizeY() / 2;
+	CheakRightPosX3_ = pos_.x <= block->GetThirdPosX() + block->GetThirdSizeX() - 32;
+	CheakRightPosY3_ = pos_.y <= block->GetThirdPosY() + block->GetThirdSizeY();
+
+	if (CheakLeftPosX1_ &&
+		CheakLeftPosY1_ &&
+		CheakRightPosX1_ &&
+		CheakRightPosY1_ && block->GetFlag1() == false)
+	{
+		ChangeState(new PlayerStateFirstBlock);
+	}
+	else {
+		block->SetFlag1(false);
+	}
+
+	if (CheakLeftPosX2_ &&
+		CheakLeftPosY2_ &&
+		CheakRightPosX2_ &&
+		CheakRightPosY2_ && block->GetFlag2() == false)
+	{
+		ChangeState(new PlayerStateSecondBlock);
+	}
+	else {
+		block->SetFlag2(false);
+	}
+
+	if (CheakLeftPosX3_ &&
+		CheakLeftPosY3_ &&
+		CheakRightPosX3_ &&
+		CheakRightPosY3_ && block->GetFlag3() == false)
+	{
+		ChangeState(new PlayerStateThirdBlock);
+	}
+	else {
+		block->SetFlag3(false);
 	}
 
 	SetHitFlag(block);

@@ -5,6 +5,7 @@ class Block;
 class Player;
 
 enum class Phase {
+	NotBlock,
 	FirstBlock,
 	SecondBlock,
 	ThirdBlock,
@@ -23,6 +24,22 @@ public:
 	void SetBlock(Block* block) {
 		block_ = block;
 	}
+
+};
+
+class PlayerStateNotBlock : public PlayerState {
+
+public:
+
+	//左上のXY
+	int CheakLeftPosX_;
+	int CheakLeftPosY_;
+
+	//右下のXY
+	int CheakRightPosX_;
+	int CheakRightPosY_;
+
+	void Update() override;
 
 };
 
@@ -103,19 +120,35 @@ private:
 
 	int speed_;
 
-	const int setPosY_ = 624;
+	const int setPosY_ = 592;
 
-	Phase phase_ = Phase::FirstBlock;
+	Phase phase_ = Phase::NotBlock;
 
 	PlayerState* state;
 
 	//左上のXY
-	int CheakLeftPosX_;
-	int CheakLeftPosY_;
+	int CheakLeftPosX1_;
+	int CheakLeftPosY1_;
 
 	//右下のXY
-	int CheakRightPosX_;
-	int CheakRightPosY_;
+	int CheakRightPosX1_;
+	int CheakRightPosY1_;
+
+	//左上のXY
+	int CheakLeftPosX2_;
+	int CheakLeftPosY2_;
+
+	//右下のXY
+	int CheakRightPosX2_;
+	int CheakRightPosY2_;
+
+	//左上のXY
+	int CheakLeftPosX3_;
+	int CheakLeftPosY3_;
+
+	//右下のXY
+	int CheakRightPosX3_;
+	int CheakRightPosY3_;
 
 };
 
