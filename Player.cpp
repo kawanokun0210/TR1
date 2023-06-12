@@ -49,10 +49,13 @@ void PlayerStateFirstBlock::Update() {
 	{
 		player_->SetPosY(-32);
 		block_->SetFlag1(true);
-		player_->ChangeState(new PlayerStateSecondBlock);
 	}
-	else {
+	else if(player_->GetPosX() <= 270){
 		block_->SetFlag1(false);
+	}
+	else if (player_->GetPosX() >= 332) {
+		block_->SetFlag1(false);
+		player_->ChangeState(new PlayerStateSecondBlock);
 	}
 
 }
@@ -61,7 +64,7 @@ void PlayerStateSecondBlock::Update() {
 
 	CheakLeftPosX_ = player_->GetPosX() >= block_->GetSecondPosX() - block_->GetSecondSizeX() / 2 + 4;
 	CheakLeftPosY_ = player_->GetPosY() >= block_->GetSecondPosY() - block_->GetSecondSizeY() / 2;
-	CheakRightPosX_ = player_->GetPosX() <= block_->GetSecondPosX() + block_->GetSecondSizeX() - 32;
+	CheakRightPosX_ = player_->GetPosX() <= block_->GetSecondPosX() + block_->GetSecondSizeX();
 	CheakRightPosY_ = player_->GetPosY() <= block_->GetSecondPosY() + block_->GetSecondSizeY();
 
 	if (CheakLeftPosX_ &&
@@ -69,13 +72,16 @@ void PlayerStateSecondBlock::Update() {
 		CheakRightPosX_ &&
 		CheakRightPosY_ && block_->GetFlag2() == false)
 	{
-		player_->SetPosY(-32);
+		player_->SetPosY(-64);
 		block_->SetFlag2(true);
-		player_->ChangeState(new PlayerStateThirdBlock);
-
 	}
-	else {
+	else if (player_->GetPosX() <= 336) {
 		block_->SetFlag2(false);
+		player_->ChangeState(new PlayerStateFirstBlock);
+	}
+	else if (player_->GetPosX() >= 424) {
+		block_->SetFlag2(false);
+		player_->ChangeState(new PlayerStateThirdBlock);
 	}
 
 }
@@ -84,7 +90,7 @@ void PlayerStateThirdBlock::Update() {
 
 	CheakLeftPosX_ = player_->GetPosX() >= block_->GetThirdPosX() - block_->GetThirdSizeX() / 2 + 4;
 	CheakLeftPosY_ = player_->GetPosY() >= block_->GetThirdPosY() - block_->GetThirdSizeY() / 2;
-	CheakRightPosX_ = player_->GetPosX() <= block_->GetThirdPosX() + block_->GetThirdSizeX() - 32;
+	CheakRightPosX_ = player_->GetPosX() <= block_->GetThirdPosX() + block_->GetThirdSizeX() - 4;
 	CheakRightPosY_ = player_->GetPosY() <= block_->GetThirdPosY() + block_->GetThirdSizeY();
 
 	if (CheakLeftPosX_ &&
@@ -94,6 +100,10 @@ void PlayerStateThirdBlock::Update() {
 	{
 		player_->SetPosY(-32);
 		block_->SetFlag3(true);
+	}
+	else if (player_->GetPosX() <= 425) {
+		block_->SetFlag3(false);
+		player_->ChangeState(new PlayerStateSecondBlock);
 	}
 	else {
 		block_->SetFlag3(false);
@@ -119,4 +129,5 @@ void Player::Update(char* keys, Block* block) {
 
 void Player::Draw() {
 	Novice::DrawBox(pos_.x, pos_.y, size_, size_, 0.0f, RED, kFillModeSolid);
+
 }

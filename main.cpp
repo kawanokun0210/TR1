@@ -47,6 +47,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		block->Draw();
 
+		Novice::ScreenPrintf(0, 0, "%d", player->GetPosX());
+
 		///
 		/// ↑描画処理ここまで
 		///

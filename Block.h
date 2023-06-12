@@ -34,9 +34,9 @@ public:
 	int GetThirdSizeX() { return block_[2].size.x; }
 	int GetThirdSizeY() { return block_[2].size.y; }
 
-	int GetFlag1() { return block_[0].blockHitFlag; }
-	int GetFlag2() { return block_[1].blockHitFlag; }
-	int GetFlag3() { return block_[2].blockHitFlag; }
+	bool GetFlag1() { return block_[0].blockHitFlag; }
+	bool GetFlag2() { return block_[1].blockHitFlag; }
+	bool GetFlag3() { return block_[2].blockHitFlag; }
 
 	void SetFlag1(bool x);
 	void SetFlag2(bool x);
