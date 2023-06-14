@@ -12,6 +12,9 @@ void Player::Initialize() {
 	state = new PlayerStateFirstBlock();
 	state->SetPlayer(this);
 
+	block_ = new Block();
+	block_->Initialize();
+
 }
 
 void Player::ChangeState(PlayerState* newPlayerState) {
@@ -129,5 +132,5 @@ void Player::Update(char* keys, Block* block) {
 
 void Player::Draw() {
 	Novice::DrawBox(pos_.x, pos_.y, size_, size_, 0.0f, RED, kFillModeSolid);
-
+	block_->Draw();
 }

@@ -109,6 +109,8 @@ private:
 
 	PlayerState* state;
 
+	Block* block_ = nullptr;
+
 	//左上のXY
 	int CheakLeftPosX_;
 	int CheakLeftPosY_;

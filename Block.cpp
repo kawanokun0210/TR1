@@ -36,8 +36,8 @@ void Block::Initialize() {
 }
 
 void Block::Draw() {
-	Novice::DrawBox(block_[0].pos.x, block_[0].pos.y, block_[0].size.x, block_[0].size.y, 0.0f, WHITE, kFillModeSolid);
-	Novice::DrawBox(block_[1].pos.x, block_[1].pos.y, block_[1].size.x, block_[1].size.y, 0.0f, WHITE, kFillModeSolid);
-	Novice::DrawBox(block_[2].pos.x, block_[2].pos.y, block_[2].size.x, block_[2].size.y, 0.0f, WHITE, kFillModeSolid);
+	for (int i = 0; i < kBlockNum_; i++) {
+		Novice::DrawBox(block_[i].pos.x, block_[i].pos.y, block_[i].size.x, block_[i].size.y, 0.0f, WHITE, kFillModeSolid);
+	}
 	Novice::DrawBox(underBlockPosX, underBlockPosY, underBlockSizeX, underBlockSizeY, 0.0f, BLACK, kFillModeSolid);
 }
